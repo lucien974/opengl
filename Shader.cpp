@@ -2,10 +2,12 @@
 
 namespace Core
 {
-    Shader::Shader(Shader const &shaderACopier): m_vertexSource(shaderACopier.m_vertexSource), m_fragmentSource(shaderACopier.m_fragmentSource)
+    Shader::Shader(Shader const &shaderACopier): m_programID(shaderACopier.getProgramID()), m_vertexSource(shaderACopier.m_vertexSource), m_fragmentSource(shaderACopier.m_fragmentSource)
     {
         // Chargement du nouveau shader
+        std::cout << "shader loading..." << std::endl;
         load();
+        std::cout << "shader loaded" << std::endl;
     }
 
 
@@ -38,27 +40,45 @@ namespace Core
         return *this;
     }
 
+    void Shader::setOffset(unsigned int offset)
+    {
+        if (offset != 0)
+        {
+            glBindAttribLocation(m_programID, offset, "in_Vertex");
+            glBindAttribLocation(m_programID, offset+1, "in_Color");
+            glBindAttribLocation(m_programID, offset+2, "in_TexCoord0");
+        }
+    }
+
 
     bool Shader::load()
     {
         // Destruction d'un éventuel ancien Shader
-        if(glIsShader(m_vertexID) == GL_TRUE) {
-            glDeleteShader(m_vertexID);
+        if(glIsShader(m_vertexID) == GL_TRUE)
+        {
+            ++m_vertexID;
+            //glDeleteShader(m_vertexID);
         }
 
-        if(glIsShader(m_fragmentID) == GL_TRUE) {
-            glDeleteShader(m_fragmentID);
+        if(glIsShader(m_fragmentID) == GL_TRUE)
+        {
+            ++m_fragmentID;
+            //glDeleteShader(m_fragmentID);
         }
 
-        if(glIsProgram(m_programID) == GL_TRUE) {
-            glDeleteProgram(m_programID);
+        if(glIsProgram(m_programID) == GL_TRUE)
+        {
+            ++m_programID;
+            //glDeleteProgram(m_programID);
         }
 
-        if(!compile(m_vertexID, GL_VERTEX_SHADER, m_vertexSource)) {
+        if(!compile(m_vertexID, GL_VERTEX_SHADER, m_vertexSource))
+        {
             return false;
         }
 
-        if(!compile(m_fragmentID, GL_FRAGMENT_SHADER, m_fragmentSource)) {
+        if(!compile(m_fragmentID, GL_FRAGMENT_SHADER, m_fragmentSource))
+        {
             return false;
         }
 
@@ -133,6 +153,7 @@ namespace Core
         std::string ligne;
         std::string codeSource;
 
+        std::cout << "shader read" << std::endl;
         // Lecture
         while(getline(fichier, ligne)) {
             codeSource += ligne + '\n';

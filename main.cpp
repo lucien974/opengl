@@ -9,8 +9,8 @@ int main(int argc, char **argv)
     settings.depthBits = 24;
     settings.stencilBits = 8;
     settings.antialiasingLevel = 4;
-    settings.majorVersion = 3;
-    settings.minorVersion = 3;
+    settings.majorVersion = 3.3;
+    settings.minorVersion = 3.3;
     sf::RenderWindow window(sf::VideoMode(800, 600), "OpenGL", sf::Style::Default, settings);
     window.setVerticalSyncEnabled(true);
     sf::Event event;
@@ -35,7 +35,9 @@ int main(int argc, char **argv)
     Core::Shader shader("Shaders/texture.vert", "Shaders/texture.frag");
     Core::Camera camera(&window, glm::vec3(3, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1), 0.01, 0.5);
     Textureloader textload("images/");
+
     Model test("test" ,"SFML.png", &textload, shader);
+    Model test_1("ground", "SFML.png", &textload, shader);
     //shaderBasique.charger();
     int translate = 0b0;
     window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width/2)-400,(sf::VideoMode::getDesktopMode().height/2)-300));
@@ -99,8 +101,9 @@ int main(int argc, char **argv)
             view = camera.update(sf::Vector2f(window.getSize().x/2, window.getSize().y/2));
             translate = 0b0;
             //sf::Mouse::setPosition(sf::Vector2i(400,300) , window);
-            glUseProgram(shader.getProgramID());
+            //glUseProgram(shader.getProgramID());
                 test.update(projection, view);
+                test_1.update(projection, view);
             glUseProgram(0);
             window.display();
         }

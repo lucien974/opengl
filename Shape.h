@@ -13,7 +13,7 @@ namespace Core
 	class Shape
 	{
 		public:
-			Shape(Shader shader);
+			Shape(Shader& shader);
 			~Shape();
 			void draw(glm::mat4 &projection, glm::mat4 &view);
 			void translate(float x, float y, float z);
@@ -37,8 +37,7 @@ namespace Core
 			Shader m_shader;
 			GLuint m_vaoID;
 			GLuint m_vboID;
-			unsigned long int m_sizeofVertices;
-			unsigned long int m_sizeofCoords;
+			unsigned long int m_sizeofVertices, m_sizeofCoords, m_array_vertex_index, m_array_coords_index, m_vao_index, m_vbo_index;
 	};
 }
 

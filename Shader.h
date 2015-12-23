@@ -18,6 +18,7 @@ namespace Core
 		    Shader& operator=(Shader const &shaderACopier);
 		    GLuint getProgramID() const;
 		    void sendMat4(std::string name, glm::mat4 matrix);
+		    void setOffset(unsigned int offset);
 
 	    private:
 		    bool load();

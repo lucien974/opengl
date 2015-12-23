@@ -184,7 +184,7 @@ void Model::initialize()
         }
     }
     //*/
-
+    std::cout << "sending" << std::endl;
     sendVertex();
     std::cout << "vertex sent" << std::endl;
 }
@@ -203,5 +203,5 @@ void Model::update(glm::mat4& projection, glm::mat4& view)
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad3))
         rotate(0.1, glm::vec3(0.0, 1.0, 0.0));
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad7))
-        rotate(0.1, glm::vec3(0.0, 0.0, -1.0));
+        rotate(0.1, glm::vec3(0.0, -1.0, 0.0));
 }
